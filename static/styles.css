@@ -1,0 +1,129 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #53ffb2; /* Cor de fundo do site */
+    color: #510097; /* Cor da fonte principal */
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #510097; /* Cor do título */
+}
+
+.input-container {
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #ff7270; /* Cor do botão */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #cf0081; /* Cor do botão em hover */
+}
+
+a {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #00fffe; /* Cor do link */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.table-container {
+    margin: 0 auto;
+    width: 80%;
+    background-color: #fff; /* Cor de fundo da tabela */
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-container th, .table-container td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+    color: #00fffe; /* Cor do texto na tabela */
+}
+
+.table-container th {
+    background-color: #53ffb2; /* Cor de fundo do cabeçalho da tabela */
+    font-weight: bold;
+}
+
+/* Adiciona estilos para o botão "Back" */
+.button-container {
+    text-align: center;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #ff7270; /* Cor do botão */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none; /* Remove sublinhado de links */
+}
+
+.button:hover {
+    background-color: #cf0081; /* Cor do botão em hover */
+}
+
+/* Adiciona estilos para a tabela de resultado */
+.result-container {
+    margin: 20px auto;
+    width: 80%;
+    background-color: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif; /* Troca a fonte */
+}
+
+.result-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.result-container th, .result-container td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+    color: #510097; /* Cor da fonte principal */
+}
+
+.result-container th {
+    background-color: #00fffe;
+    font-weight: bold;
+}

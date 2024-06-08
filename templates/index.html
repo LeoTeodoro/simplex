@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simplex Method</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Simplex Method Input</h1>
+    <div class="input-container">
+        <form action="/process" method="post">
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        {% for i in range(8) %}
+                            <th><input type="text" name="columns[]" placeholder="Col {{ i+1 }}"></th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range(4) %}
+                        <tr>
+                            <td><input type="text" name="rows[]" placeholder="Row {{ i+1 }}"></td>
+                            {% for j in range(8) %}
+                                <td><input type="text" name="values[]"></td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
