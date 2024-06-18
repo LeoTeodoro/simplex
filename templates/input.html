@@ -32,6 +32,13 @@
                     {% endfor %}
                 </tbody>
             </table>
+            
+            <!-- Adicionando campo para lista de viabilidade -->
+            <label for="viabilidade">Lista de Viabilidade:</label><br>
+            {% for i in range(num_restrictions) %}
+                <input type="text" name="viabilidade[]" placeholder="Valor {{ i+1 }}"><br>
+            {% endfor %}
+            
             <button type="submit">Submit</button>
         </form>
     </div>

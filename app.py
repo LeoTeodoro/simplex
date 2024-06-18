@@ -68,26 +68,30 @@ def preco_sombra(dataframe_final, num_vars):
     return dataframe_final.iloc[0, num_vars:-1].to_dict()  # Convertendo para dicionário
 
 def viabilidade(dataframe, num_vars, lista_viabilidade):
-    tabela_viabilidade = dataframe.iloc[1:,num_vars:]
+    tabela_viabilidade = dataframe.iloc[1:, num_vars:]
     num_linhas = tabela_viabilidade.shape[0]
     num_elementos = len(lista_viabilidade)
     function = 0
+    
     for i in range(num_linhas):
         for j in range(num_elementos):
-            function += tabela_viabilidade.iloc[i,j].astype(float)*lista_viabilidade[j]
-        soma = function + tabela_viabilidade.iloc[i,-1].astype(float)
+            function += tabela_viabilidade.iloc[i, j].astype(float) * lista_viabilidade[j]
+        soma = function + tabela_viabilidade.iloc[i, -1].astype(float)
+        
         if soma < 0:
             return False
         else:
             function = 0
             
-    lucro = dataframe.iloc[0,num_vars:]
-    print(lucro)
+    lucro = dataframe.iloc[0, num_vars:]
     funcao_lucro = 0
+    
     for i in range(num_elementos):
-        funcao_lucro += lucro.iloc[i].astype(float)*lista_viabilidade[i]
+        funcao_lucro += lucro.iloc[i].astype(float) * lista_viabilidade[i]
+        
     lucro_total = funcao_lucro + lucro.iloc[-1].astype(float)
     return lucro_total
+
 
 def simplex(dataframe):
     while not veificar_parada(dataframe):
@@ -109,6 +113,7 @@ def setup():
     num_restrictions = int(request.form['num_restrictions'])
     return render_template('input.html', num_vars=num_vars, num_restrictions=num_restrictions)
 
+
 # Rota para processar os dados do formulário
 @app.route('/process', methods=['POST'])
 def process():
@@ -129,13 +134,18 @@ def process():
     
     otimo = resultado(df, result_df, num_vars)
     preco_sombra_values = preco_sombra(result_df, num_vars)
-    viabilidadeTeste = viabilidade(result_df, num_vars, [-25,-60,-50])
-    print(viabilidadeTeste)
+    
+    # Obter a lista de viabilidade do formulário
+    lista_viabilidade = request.form.getlist('viabilidade[]')
+    lista_viabilidade = [float(value) for value in lista_viabilidade]
+    
+    # Calcular a viabilidade com a lista fornecida
+    viabilidade_result = viabilidade(result_df, num_vars, lista_viabilidade)
     
     # Conversão do DataFrame resultante para HTML
     result_html = result_df.to_html(classes='table table-bordered')
 
-    return render_template('result.html', result=result_html, otimo=otimo, preco_sombra=preco_sombra_values)
+    return render_template('result.html', result=result_html, otimo=otimo, preco_sombra=preco_sombra_values, viabilidade_result=viabilidade_result)
 
 if __name__ == '__main__':
     app.run(debug=True)
