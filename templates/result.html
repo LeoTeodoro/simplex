@@ -11,6 +11,22 @@
     <div class="result-container">
         {{ result | safe }}
     </div>
+    <div class="result-container">
+        <h2>Resultado Ótimo</h2>
+        <ul>
+            {% for key, value in otimo.items() %}
+                <li>{{ key }}: {{ value }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="result-container">
+        <h2>Preço Sombra</h2>
+        <ul>
+            {% for label, value in preco_sombra.items() %}
+                <li>{{ label }}: {{ value }}</li>
+            {% endfor %}
+        </ul>
+    </div>
     <div class="button-container">
         <a href="/" class="button">Back</a>
     </div>

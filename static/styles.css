@@ -11,6 +11,11 @@ h1 {
     color: #510097; /* Cor do título */
 }
 
+h2 {
+    text-align: center;
+    color: #510097; /* Cor dos subtítulos */
+}
+
 .input-container {
     margin-bottom: 20px;
 }
@@ -126,4 +131,14 @@ a:hover {
 .result-container th {
     background-color: #00fffe;
     font-weight: bold;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin: 5px 0;
+    color: #510097; /* Cor da fonte principal */
 }

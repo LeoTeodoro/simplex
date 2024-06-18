@@ -49,7 +49,7 @@ def veificar_parada(dataframe):
     else:
         return False
     
-def resultado_otimo(dataframe_inicial, dataframe_final):
+def resultado(dataframe_inicial, dataframe_final):
     otimo = {}
     columns1 = dataframe_inicial.columns[:4]  
     columns2 = dataframe_final.columns[:4]    
@@ -65,8 +65,7 @@ def resultado_otimo(dataframe_inicial, dataframe_final):
     return otimo
 
 def preco_sombra(dataframe_final):
-    preco_sombra = dataframe_final.iloc[0,4:-1]
-    print(preco_sombra)
+    return dataframe_final.iloc[0, 4:-1].to_dict()  # Convertendo para dicionário
 
 def simplex(dataframe):
     while not veificar_parada(dataframe):
@@ -97,13 +96,13 @@ def process():
     # Aplicação do método Simplex
     result_df = simplex(df)
     
-    print(resultado_otimo(df, result_df))
-    preco_sombra(result_df)
+    otimo = resultado(df, result_df)
+    preco_sombra_values = preco_sombra(result_df)
     
     # Conversão do DataFrame resultante para HTML
     result_html = result_df.to_html(classes='table table-bordered')
 
-    return render_template('result.html', result=result_html)
+    return render_template('result.html', result=result_html, otimo=otimo, preco_sombra=preco_sombra_values)
 
 if __name__ == '__main__':
     app.run(debug=True)
