@@ -13,14 +13,14 @@ h1 {
 
 h2 {
     text-align: center;
-    color: #510097; /* Cor dos subtítulos */
+    color: #cf0081; /* Cor dos subtítulos */
 }
 
 .input-container {
     margin-bottom: 20px;
 }
 
-input[type="text"] {
+input[type="text"], input[type="number"] {
     width: 100%;
     padding: 8px;
     box-sizing: border-box;

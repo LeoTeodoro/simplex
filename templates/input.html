@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simplex Method Data Input</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Enter Data for Simplex Method</h1>
+    <div class="input-container">
+        <form action="/process" method="post">
+            <input type="hidden" name="num_vars" value="{{ num_vars }}">
+            <input type="hidden" name="num_restrictions" value="{{ num_restrictions }}">
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        {% for i in range(num_vars + num_restrictions + 1) %}
+                            <th><input type="text" name="columns[]" placeholder="Col {{ i+1 }}"></th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range(num_restrictions + 1) %}
+                        <tr>
+                            <td><input type="text" name="rows[]" placeholder="Row {{ i+1 }}"></td>
+                            {% for j in range(num_vars + num_restrictions + 1) %}
+                                <td><input type="text" name="values[]"></td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

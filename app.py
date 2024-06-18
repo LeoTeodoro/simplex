@@ -8,11 +8,13 @@ app = Flask(__name__)
 def encontrar_coluna_pivo(dataframe):
     first_row = dataframe.iloc[0]
     column_most_negative = first_row.astype(float).idxmin()
+    print(column_most_negative)
     return column_most_negative
 
 def encontrar_linha_pivo(dataframe, column):
     last_column = dataframe.iloc[:, -1].astype(float)
     pivo_column = dataframe[column].astype(float)
+    print(pivo_column)
     
     minValue = float('inf')
     row_index = None
@@ -49,10 +51,10 @@ def veificar_parada(dataframe):
     else:
         return False
     
-def resultado(dataframe_inicial, dataframe_final):
+def resultado(dataframe_inicial, dataframe_final, num_vars):
     otimo = {}
-    columns1 = dataframe_inicial.columns[:4]  
-    columns2 = dataframe_final.columns[:4]    
+    columns1 = dataframe_inicial.columns[:num_vars]  
+    columns2 = dataframe_final.columns[:num_vars]    
     
     for column in columns1:
         if column in columns2:
@@ -64,8 +66,8 @@ def resultado(dataframe_inicial, dataframe_final):
                 otimo[column] = None 
     return otimo
 
-def preco_sombra(dataframe_final):
-    return dataframe_final.iloc[0, 4:-1].to_dict()  # Convertendo para dicionário
+def preco_sombra(dataframe_final, num_vars):
+    return dataframe_final.iloc[0, num_vars:-1].to_dict()  # Convertendo para dicionário
 
 def simplex(dataframe):
     while not veificar_parada(dataframe):
@@ -80,6 +82,13 @@ def simplex(dataframe):
 def index():
     return render_template('index.html')
 
+# Rota para entrada de variáveis e restrições
+@app.route('/setup', methods=['POST'])
+def setup():
+    num_vars = int(request.form['num_vars'])
+    num_restrictions = int(request.form['num_restrictions'])
+    return render_template('input.html', num_vars=num_vars, num_restrictions=num_restrictions)
+
 # Rota para processar os dados do formulário
 @app.route('/process', methods=['POST'])
 def process():
@@ -87,8 +96,10 @@ def process():
     rows = request.form.getlist('rows[]')
     values = request.form.getlist('values[]')
 
-    # Reshape dos valores para uma matriz 4x8
-    values_matrix = np.array(values, dtype=float).reshape((4, 8))
+    # Reshape dos valores para uma matriz com base nas restrições e variáveis
+    num_vars = int(request.form['num_vars'])
+    num_restrictions = int(request.form['num_restrictions'])
+    values_matrix = np.array(values, dtype=float).reshape((num_restrictions + 1, num_vars + num_restrictions + 1))
 
     # Criação do DataFrame
     df = pd.DataFrame(values_matrix, columns=columns, index=rows)
@@ -96,8 +107,8 @@ def process():
     # Aplicação do método Simplex
     result_df = simplex(df)
     
-    otimo = resultado(df, result_df)
-    preco_sombra_values = preco_sombra(result_df)
+    otimo = resultado(df, result_df, num_vars)
+    preco_sombra_values = preco_sombra(result_df, num_vars)
     
     # Conversão do DataFrame resultante para HTML
     result_html = result_df.to_html(classes='table table-bordered')

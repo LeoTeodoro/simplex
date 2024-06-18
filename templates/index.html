@@ -9,27 +9,11 @@
 <body>
     <h1>Simplex Method Input</h1>
     <div class="input-container">
-        <form action="/process" method="post">
-            <table>
-                <thead>
-                    <tr>
-                        <th></th>
-                        {% for i in range(8) %}
-                            <th><input type="text" name="columns[]" placeholder="Col {{ i+1 }}"></th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for i in range(4) %}
-                        <tr>
-                            <td><input type="text" name="rows[]" placeholder="Row {{ i+1 }}"></td>
-                            {% for j in range(8) %}
-                                <td><input type="text" name="values[]"></td>
-                            {% endfor %}
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <form action="/setup" method="post">
+            <label for="num_vars">Number of Variables:</label>
+            <input type="number" id="num_vars" name="num_vars" min="1" required>
+            <label for="num_restrictions">Number of Restrictions:</label>
+            <input type="number" id="num_restrictions" name="num_restrictions" min="1" required>
             <button type="submit">Submit</button>
         </form>
     </div>
