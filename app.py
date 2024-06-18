@@ -8,13 +8,11 @@ app = Flask(__name__)
 def encontrar_coluna_pivo(dataframe):
     first_row = dataframe.iloc[0]
     column_most_negative = first_row.astype(float).idxmin()
-    print(column_most_negative)
     return column_most_negative
 
 def encontrar_linha_pivo(dataframe, column):
     last_column = dataframe.iloc[:, -1].astype(float)
     pivo_column = dataframe[column].astype(float)
-    print(pivo_column)
     
     minValue = float('inf')
     row_index = None
@@ -69,6 +67,28 @@ def resultado(dataframe_inicial, dataframe_final, num_vars):
 def preco_sombra(dataframe_final, num_vars):
     return dataframe_final.iloc[0, num_vars:-1].to_dict()  # Convertendo para dicionário
 
+def viabilidade(dataframe, num_vars, lista_viabilidade):
+    tabela_viabilidade = dataframe.iloc[1:,num_vars:]
+    num_linhas = tabela_viabilidade.shape[0]
+    num_elementos = len(lista_viabilidade)
+    function = 0
+    for i in range(num_linhas):
+        for j in range(num_elementos):
+            function += tabela_viabilidade.iloc[i,j].astype(float)*lista_viabilidade[j]
+        soma = function + tabela_viabilidade.iloc[i,-1].astype(float)
+        if soma < 0:
+            return False
+        else:
+            function = 0
+            
+    lucro = dataframe.iloc[0,num_vars:]
+    print(lucro)
+    funcao_lucro = 0
+    for i in range(num_elementos):
+        funcao_lucro += lucro.iloc[i].astype(float)*lista_viabilidade[i]
+    lucro_total = funcao_lucro + lucro.iloc[-1].astype(float)
+    return lucro_total
+
 def simplex(dataframe):
     while not veificar_parada(dataframe):
         cpivo = encontrar_coluna_pivo(dataframe)
@@ -109,6 +129,8 @@ def process():
     
     otimo = resultado(df, result_df, num_vars)
     preco_sombra_values = preco_sombra(result_df, num_vars)
+    viabilidadeTeste = viabilidade(result_df, num_vars, [-25,-60,-50])
+    print(viabilidadeTeste)
     
     # Conversão do DataFrame resultante para HTML
     result_html = result_df.to_html(classes='table table-bordered')
