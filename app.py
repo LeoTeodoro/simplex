@@ -64,6 +64,9 @@ def resultado(dataframe_inicial, dataframe_final, num_vars):
                 otimo[column] = None 
     return otimo
 
+def lucro_total(dataframe_final):
+    return dataframe_final.iloc[0, -1]
+
 def preco_sombra(dataframe_final, num_vars):
     return dataframe_final.iloc[0, num_vars:-1].to_dict()  # Convertendo para dicionário
 
@@ -133,6 +136,7 @@ def process():
     result_df = simplex(df)
     
     otimo = resultado(df, result_df, num_vars)
+    lucro_otimo_value = lucro_total(result_df)
     preco_sombra_values = preco_sombra(result_df, num_vars)
     
     # Obter a lista de viabilidade do formulário
@@ -145,7 +149,7 @@ def process():
     # Conversão do DataFrame resultante para HTML
     result_html = result_df.to_html(classes='table table-bordered')
 
-    return render_template('result.html', result=result_html, otimo=otimo, preco_sombra=preco_sombra_values, viabilidade_result=viabilidade_result)
+    return render_template('result.html', result=result_html, otimo=otimo, lucro_otimo_value=lucro_otimo_value, preco_sombra=preco_sombra_values, viabilidade_result=viabilidade_result)
 
 if __name__ == '__main__':
     app.run(debug=True)

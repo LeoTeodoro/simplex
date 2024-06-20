@@ -17,6 +17,7 @@
             {% for key, value in otimo.items() %}
                 <li>{{ key }}: {{ value }}</li>
             {% endfor %}
+            <p>Lucro Ótimo Total: {{ lucro_otimo_value }}</p>
         </ul>
     </div>
     <div class="result-container">
@@ -32,7 +33,7 @@
         {% if viabilidade_result is none %}
             <p>Não é viável com a lista informada</p>
         {% else %}
-            <p>Lucro Total: {{ viabilidade_result }}</p>
+            <p>Lucro Total (Viabilidade): {{ viabilidade_result }}</p>
         {% endif %}
     </div>
     <div class="button-container">
